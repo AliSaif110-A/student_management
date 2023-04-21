@@ -1,0 +1,11 @@
+{% extends 'base.html' %} 
+{% block content %}
+<h1>Student Detail</h1>
+<p><strong>First Name:</strong> {{ student.first_name }}</p>
+<p><strong>Last Name:</strong> {{ student.last_name }}</p>
+<p><strong>Email:</strong> {{ student.email }}</p>
+<p><strong>Created At:</strong> {{ student.created_at }}</p>
+<p><strong>Updated At:</strong> {{ student.updated_at }}</p>
+<p><a href="{% url 'students:update' student.id %}">Edit</a></p>
+<p><a href="{% url 'students:delete' student.id %}">Delete</a></p>
+{% endblock %}

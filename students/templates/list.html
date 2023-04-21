@@ -1,0 +1,35 @@
+{% extends 'base.html' %} 
+{% block content %}
+<h1>Student List</h1>
+<form class="search-form" method="get" action="{% url 'students:search' %}">
+  <input type="text" name="query" placeholder="Search...">
+  <button type="submit">Search</button>
+</form>
+{% if error_message %}
+  <b><p style="color: red;">{{ error_message }}</p></b>
+{% endif %}
+<table>
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for student in students %}
+    <tr>
+      <td>{{ student.first_name }}</td>
+      <td>{{ student.last_name }}</td>
+      <td>{{ student.email }}</td>
+      <td>
+        <a href="{% url 'students:detail' student.id %}"><i class="fa fa-eye"></i></a>
+        <a href="{% url 'students:update' student.id %}"><i class="fa fa-pencil"></i></a>
+        <a href="{% url 'students:delete' student.id %}"><i class="fa fa-trash"></i></a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
