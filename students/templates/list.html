@@ -1,6 +1,6 @@
 {% extends 'base.html' %} 
 {% block content %}
-<h1>Student List</h1>
+<h2>Student List</h2>
 <form class="search-form" method="get" action="{% url 'students:search' %}">
   <input type="text" name="query" placeholder="Search...">
   <button type="submit">Search</button>
