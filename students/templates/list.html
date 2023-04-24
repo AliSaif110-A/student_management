@@ -32,4 +32,29 @@
     {% endfor %}
   </tbody>
 </table>
-{% endblock %}
+<nav aria-label="Student navigation">
+  <ul class="pagination justify-content-center">
+      {% if students.has_previous %}
+      <li class="page-item">
+          <a class="page-link" href="?query={{ query }}&page={{ students.previous_page_number }}"
+              aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+          </a>
+      </li>
+      {% endif %}
+      {% for i in students.paginator.page_range %}
+      {% if students.number == i %}
+      <li class="page-item active"><a class="page-link" href="#">{{ i }}</a></li>
+      {% else %}
+      <li class="page-item"><a class="page-link" href="?query={{ query }}&page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+      {% endfor %}
+      {% if students.has_next %}
+      <li class="page-item">
+          <a class="page-link" href="?query={{ query }}&page={{ students.next_page_number }}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+          </a>
+      </li>
+      {% endif %}
+  </ul>
+</nav>{% endblock %}

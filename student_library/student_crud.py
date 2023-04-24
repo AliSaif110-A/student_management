@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator
 from django.db.models import Q
 from students.models import Student
 from students.forms import StudentForm
@@ -38,13 +39,16 @@ def delete(request, pk):
 def search(request):
     query = request.GET.get("query", "")
     if not query:
-        error_message = "Please enter a search query."
-        students = Student.objects.all()
+        error_message = "Please enter a search query!"
+        students = Student.objects.all().order_by("first_name")
         return render(request, "list.html", {"error_message": error_message, "students": students})
-    students = Student.objects.filter(
+    students_list = Student.objects.filter(
         Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(email__icontains=query)
-    )
-    return render(request, "list.html", {"students": students})
+    ).order_by("first_name")
+    paginator = Paginator(students_list, 10)  # Show 10 students per page
+    page = request.GET.get("page")
+    students = paginator.get_page(page)
+    return render(request, "list.html", {"students": students, "query": query})
     
 def detail(request, pk):
     """
@@ -57,5 +61,8 @@ def list(request):
     """
     Display a list of all student records.
     """
-    students = Student.objects.all()
+    students_list = Student.objects.all().order_by("first_name")
+    paginator = Paginator(students_list, 10)  # Show 10 students per page
+    page = request.GET.get("page")
+    students = paginator.get_page(page)
     return render(request, "list.html", {"students": students})
